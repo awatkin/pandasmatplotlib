@@ -10,16 +10,45 @@ def read_data():  # define the subroutine
     return df  # returns the dataframe to where it was requested
 
 
-def read_all_data():  # this sub routine will readin a frssh csv file and print out the entire contents
+def read_all_data():  # this sub routine will read in a fresh csv file and print out the entire contents
     df = read_data()  # capture the dataframe, fresh one, from read_data into a variable.
-    print(df)  # print out the data, will be cutdown for clarity in the console.
+    print(df)  # print out the data, will be cut down for clarity in the console.
 
 
-def food_service_graph:  # starts new subroutine to build a graph about item sales.
+def food_service_graph():  # starts new subroutine to build a graph about item sales.
     df = read_data()  # gets a fresh dataframe in to work with.
+    print(df)
 
-#change
-    
+
+def total_each_item():  # This sub routine will calculate the totals for each menu item and print them with a graph
+    df = read_data()  # calls the read in function to get a fresh dataframe, which is good security.
+
+    df1 = df.drop(['Service'], axis=1)  # this drops the Service column and its data as not needed for this
+
+    df1 = df1.groupby('Menu Item').sum().sum(axis=1)  # runs a sum and averages with "mean()" function
+
+    print(df1)  # print out the averages
+
+    df1.plot.bar()  # sends the data to a plot, specifically a bar chart
+    plt.title("Total Sales for Each Menu Item, across both Services")  # sets the title of the chart
+    plt.show()  # triggers the showing of the plot to the user.
+
+
+def average_each_item():
+    df = read_data()
+
+    df1 = df.drop(['Service'], axis=1)
+    df1 = df1.groupby('Menu Item').sum().mean(axis=1)
+
+    print(df1)
+
+    print("The item with the highest average is: ", df1.idxmax())
+
+    df1.plot.bar()
+    plt.title("Average of Each menu item sales")
+    plt.show()
+
+
 def main():
     flag = True
     while flag:
@@ -37,6 +66,10 @@ def main():
         choice = str(input("Enter your choice: "))
         if choice == "1":
             read_all_data()
+        if choice == "4":
+            total_each_item()
+        if choice == "5":
+            average_each_item()
         elif choice == "6":
             flag = False
             print("Thank you for using T-level Digital Python helper!")
